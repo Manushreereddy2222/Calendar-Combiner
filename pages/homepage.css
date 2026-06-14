@@ -1,0 +1,152 @@
+* {
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: vollkorn, serif;
+}
+
+.homepage {
+  margin: 0 auto;
+  padding: 24px;
+  background: #fff;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-btn {
+  width: 130px;
+  height: 50px;
+  background: white;
+  border: 3px solid #5D2E46;
+  border-radius: 4px;
+  border-color: #5D2E46;
+  color: #5D2E46;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.5s;
+}
+
+.login-btn:hover {
+  background: #5D2E46;
+  color: white;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 550px;
+  margin-left: 25px;
+  margin-top: 8px;
+  border-radius: 8px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+main h1 {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 38px;
+}
+
+main p {
+  color: #000000;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.session-btn {
+  width: 250px;
+  height: 50px;
+  background: white;
+  border: 3px solid;
+  border-radius: 4px;
+  border-color: #5D2E46;
+  color: #000;
+  cursor: pointer;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #5D2E46;
+  color: white;
+  font-size: 20px;
+  transition: all 0.5s;
+}
+
+.session-btn:hover {
+  background: white;
+  color: #5D2E46;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #888; /* or var(--color-text-secondary) if using a design system */
+  font-size: 18px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 5px solid #e0e0e0;
+}
+
+.divider::before {
+  margin-right: 10px;
+}
+
+.divider::after {
+  margin-left: 10px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.main-description {
+  font-weight: bold;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f0e6eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.step-number {
+  margin: 0 0 8px 0;
+}
+
+.circle, .material-symbols-outlined {
+  line-height: 1;
+  display: flex;
+  position: relative; 
+  top: 8px;
+}
+
+
