@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #FAF7F8;
+}
+
+.session-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 440px;
+  padding: 48px 40px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(93, 46, 70, 0.08);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.badge-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 8px;
+}
+
+.badge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #f0e6eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.4s ease-out 0.15s backwards;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.badge .material-symbols-outlined {
+  font-size: 48px;
+  color: #5D2E46;
+  line-height: 1;
+}
+
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  background: #5D2E46;
+  opacity: 0.35;
+}
+
+.dot1 {
+  width: 10px;
+  height: 10px;
+  top: -6px;
+  right: 14px;
+}
+
+.dot2 {
+  width: 7px;
+  height: 7px;
+  bottom: 8px;
+  left: -12px;
+}
+
+.dot3 {
+  width: 12px;
+  height: 12px;
+  top: 38px;
+  right: -16px;
+}
+
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #5D2E46;
+}
+
+p {
+  color: #777;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.link-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.link-text {
+  flex: 1;
+  background: #FAF7F8;
+  border: 1px solid #e8d9e1;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 14px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  background: white;
+  border: 1px solid #5D2E46;
+  color: #5D2E46;
+  border-radius: 6px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.copy-btn:hover {
+  background: #5D2E46;
+  color: white;
+}
+
+.session-btn {
+  width: 100%;
+  height: 52px;
+  background: #5D2E46;
+  color: white;
+  border: 2px solid #5D2E46;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+.session-btn:hover {
+  background: white;
+  color: #5D2E46;
+}

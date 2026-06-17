@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Session Created - Calendar Combiner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-symbols@0.18.0/outlined.css" />
+    <link rel="stylesheet" href="crt-session.css" />
+  </head>
+  <body>
+    <div class="session-card">
+      <div class="badge-wrapper">
+        <span class="dot dot1"></span>
+        <span class="dot dot2"></span>
+        <span class="dot dot3"></span>
+        <div class="badge">
+          <span class="material-symbols-outlined">check</span>
+        </div>
+      </div>
+
+      <h1>Session created!</h1>
+      <p>Share this link with others to add participants.</p>
+
+      <div class="link-row">
+        <span class="link-text" id="session-link">timesync.app/s/abc123</span>
+        <button class="copy-btn" onclick="copyLink()">Copy</button>
+      </div>
+
+      <button class="session-btn">Go to session</button>
+    </div>
+
+    <script>
+      const id = Math.random().toString(36).substring(2, 8);
+      document.getElementById('session-link').textContent = 'calendarcombiner.app/s/' + id;
+
+      function copyLink() {
+        navigator.clipboard.writeText(document.getElementById('session-link').textContent);
+      }
+    </script>
+  </body>
+</html>
