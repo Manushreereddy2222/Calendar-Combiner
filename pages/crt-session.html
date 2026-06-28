@@ -6,33 +6,80 @@
     <link rel="stylesheet" href="crt-session.css" />
   </head>
   <body>
-    <div class="session-card">
-      <div class="badge-wrapper">
-        <span class="dot dot1"></span>
-        <span class="dot dot2"></span>
-        <span class="dot dot3"></span>
-        <div class="badge">
-          <span class="material-symbols-outlined">check</span>
+      <div class="homepage">
+        <header class="header">
+          <h1 class="title">Calendar Combiner</h1>
+          <nav>
+            <button class="login-btn">Log in</button>
+          </nav>
+        </header>
+      </div>
+    <div class="session-wrapper"> 
+      <!-- Card 1: Session created -->
+      <div class="session-card">
+        <div class="badge-wrapper">
+          <span class="dot dot1"></span>
+          <span class="dot dot2"></span>
+          <span class="dot dot3"></span>
+          <div class="badge">
+            <span class="material-symbols-outlined">check</span>
+          </div>
+        </div>
+
+        <h1>Session created!</h1>
+        <p>Share this link with others to add participants.</p>
+
+        <div class="link-row">
+          <span class="link-text" id="session-link">timesync.app/s/abc123</span>
+          <button class="copy-btn" onclick="copyLink()">Copy</button>
         </div>
       </div>
 
-      <h1>Session created!</h1>
-      <p>Share this link with others to add participants.</p>
+      <!-- Card 2: No participants yet / Add yourself -->
+      <div class="join-card">
+        <div class="empty-icon">
+          <span class="material-symbols-outlined">group</span>
+        </div>
 
-      <div class="link-row">
-        <span class="link-text" id="session-link">timesync.app/s/abc123</span>
-        <button class="copy-btn" onclick="copyLink()">Copy</button>
+        <h2>No participants yet</h2>
+        <p>Invite others or add yourself to get started.</p>
+
+        <div class="add-yourself">
+          <h3>Add yourself</h3>
+          <p class="small-text">Join the session by connecting your calendar or entering your availability manually.</p>
+
+          <button class="outline-btn">
+            <span class="material-symbols-outlined">calendar_month</span>
+            Connect Google Calendar
+          </button>
+          <button class="outline-btn">Enter availability manually</button>
+        </div>
+
+        <button class="session-btn" disabled>Find common free times</button>
+        <p class="helper-text">Add at least 1 more participant to continue.</p>
       </div>
 
-      <button class="session-btn">Go to session</button>
     </div>
 
     <script>
-      const id = Math.random().toString(36).substring(2, 8);
+      const params = new URLSearchParams(window.location.search);
+      const IS_CREATOR = !params.has('join');
+
+      const id = IS_CREATOR
+      ? Math.random().toString(36).substring(2, 8)
+      : params.get('join');
+
       document.getElementById('session-link').textContent = 'calendarcombiner.app/s/' + id;
 
       function copyLink() {
-        navigator.clipboard.writeText(document.getElementById('session-link').textContent);
+       const link = document.getElementById('session-link').textContent;
+       navigator.clipboard.writeText(link);
+      }
+
+      if (!IS_CREATOR) {
+        document.querySelector('.session-card').style.display = 'none';
+        document.querySelector('.join-card h2').textContent = 'Join this session';
+        document.querySelector('.join-card > p').textContent = 'Connect your calendar or enter your availability to participate.';
       }
     </script>
   </body>

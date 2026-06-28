@@ -6,12 +6,12 @@
   padding: 0;
   box-sizing: border-box;
   font-family: vollkorn, serif;
+  background: #FAF7F8;
 }
 
 .homepage {
   margin: 0 auto;
   padding: 24px;
-  background: #fff;
 }
 
 .header {
@@ -20,22 +20,28 @@
   justify-content: space-between;
 }
 
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #5D2E46;
+}
+
 .login-btn {
   width: 130px;
   height: 50px;
-  background: white;
+  background: #FAF7F8;
   border: 3px solid #5D2E46;
   border-radius: 4px;
   border-color: #5D2E46;
   color: #5D2E46;
   cursor: pointer;
   font-size: 20px;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .login-btn:hover {
   background: #5D2E46;
-  color: white;
+  color: #FAF7F8;
 }
 
 .main {
@@ -48,7 +54,7 @@
   border-radius: 8px;
   padding: 24px;
   border: 1px solid #e0e0e0;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(93, 46, 70, 0.08);
 }
 
 main h1 {
@@ -77,13 +83,13 @@ main p {
   margin-left: 50%;
   transform: translateX(-50%);
   background: #5D2E46;
-  color: white;
+  color: #FAF7F8;
   font-size: 20px;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .session-btn:hover {
-  background: white;
+  background: #FAF7F8;
   color: #5D2E46;
 }
 
@@ -147,6 +153,5 @@ main p {
   display: flex;
   position: relative; 
   top: 8px;
+  background-color: #f0e6eb;
 }
-
-

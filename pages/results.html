@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Results - Calendar Combiner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-symbols@0.18.0/outlined.css" />
+    <link rel="stylesheet" href="results.css" />
+  </head>
+  <body>
+    <div class="homepage">
+      <header class="header">
+        <h1 class="title">Calendar Combiner</h1>
+        <nav>
+          <button class="login-btn">Log in</button>
+        </nav>
+      </header>
+    </div>
+
+    <div class="results-wrapper">
+
+      <!-- Top suggestions -->
+      <div class="results-header">
+        <h2 class="results-title">Top suggestions</h2>
+        <div class="tz-row">
+          <span class="tz-label">Showing times in</span>
+          <select class="tz-select">
+            <option>IST</option>
+            <option>AEST</option>
+            <option>UTC</option>
+          </select>
+          <button class="refresh-btn">Refresh</button>
+        </div>
+      </div>
+
+      <div class="suggestions-row">
+        <div class="suggestion-card best">
+          <div class="suggestion-top">
+            <span class="suggestion-date">Tue, 21 May</span>
+            <button class="star-btn" onclick="toggleStar(this)">
+              <span class="material-symbols-outlined">star</span>
+            </button>
+          </div>
+          <div class="suggestion-time">10:00 – 11:00 AM</div>
+          <div class="availability-badge all">3/3 available</div>
+          <button class="select-btn" onclick="openConfirmModal('Tue, 21 May', '10:00 – 11:00 AM')">Select this time</button>
+        </div>
+
+        <div class="suggestion-card">
+          <div class="suggestion-top">
+            <span class="suggestion-date">Wed, 22 May</span>
+            <button class="star-btn" onclick="toggleStar(this)">
+              <span class="material-symbols-outlined">star</span>
+            </button>
+          </div>
+          <div class="suggestion-time">2:00 – 3:00 PM</div>
+          <div class="availability-badge most">2/3 available</div>
+          <button class="select-btn" onclick="openConfirmModal('Wed, 22 May', '2:00 – 3:00 PM')">Select this time</button>
+        </div>
+
+        <div class="suggestion-card">
+          <div class="suggestion-top">
+            <span class="suggestion-date">Thu, 23 May</span>
+            <button class="star-btn" onclick="toggleStar(this)">
+              <span class="material-symbols-outlined">star</span>
+            </button>
+          </div>
+          <div class="suggestion-time">12:00 – 12:30 PM</div>
+          <div class="availability-badge most">2/3 available</div>
+          <button class="select-btn" onclick="openConfirmModal('Thu, 23 May', '12:00 – 12:30 PM')">Select this time</button>
+        </div>
+      </div>
+
+      <!-- Availability grid -->
+      <div class="grid-section">
+
+        <!-- Week navigation -->
+        <div class="week-nav">
+          <button class="week-btn" onclick="changeWeek(-1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <span class="week-label" id="week-label"></span>
+          <button class="week-btn" onclick="changeWeek(1)">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+
+        <div class="grid-scroll">
+          <table class="avail-grid">
+            <thead>
+              <tr id="grid-head">
+                <th class="time-col"></th>
+              </tr>
+            </thead>
+            <tbody id="grid-body"></tbody>
+          </table>
+        </div>
+
+        <div class="grid-legend">
+          <span class="legend-item"><span class="legend-dot dot-all"></span>Everyone free</span>
+          <span class="legend-item"><span class="legend-dot dot-most"></span>Most free</span>
+          <span class="legend-item"><span class="legend-dot dot-none"></span>Unavailable</span>
+          <span class="legend-note">Hover a slot to see details</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hover tooltip -->
+    <div class="slot-tooltip" id="slot-tooltip">
+      <div class="tooltip-content" id="tooltip-content"></div>
+    </div>
+
+    <!-- Confirm modal -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+      <div class="modal">
+        <button class="modal-close" onclick="closeConfirmModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <h2 class="modal-title">How will you meet?</h2>
+        <p class="modal-subtitle">Choose how you'll meet for this session.</p>
+        <div class="modal-selected-time" id="modal-selected-time"></div>
+
+        <div class="modal-options">
+          <!-- In person -->
+          <label class="modal-option">
+            <input type="radio" name="meet-type" value="inperson" onchange="showMeetField('inperson')" />
+            <div class="option-content">
+              <span class="material-symbols-outlined option-icon">location_on</span>
+              <div>
+                <div class="option-label">In person</div>
+                <div class="option-desc">Enter a location or address</div>
+              </div>
+            </div>
+          </label>
+          <div class="meet-field" id="field-inperson">
+            <input type="text" class="meet-input" placeholder="e.g. 91 Springboard, Koramangala, Bengaluru" />
+          </div>
+
+          <!-- Google Meet -->
+          <label class="modal-option">
+            <input type="radio" name="meet-type" value="gmeet" onchange="showMeetField('gmeet')" />
+            <div class="option-content">
+              <span class="material-symbols-outlined option-icon">video_call</span>
+              <div>
+                <div class="option-label">Google Meet</div>
+                <div class="option-desc">A Meet link will be created automatically</div>
+              </div>
+            </div>
+          </label>
+
+          <!-- Other -->
+          <label class="modal-option">
+            <input type="radio" name="meet-type" value="other" onchange="showMeetField('other')" />
+            <div class="option-content">
+              <span class="material-symbols-outlined option-icon">link</span>
+              <div>
+                <div class="option-label">Other</div>
+                <div class="option-desc">Paste a link (Zoom, Teams, etc.)</div>
+              </div>
+            </div>
+          </label>
+          <div class="meet-field" id="field-other">
+            <input type="text" class="meet-input" placeholder="https://zoom.us/j/..." />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-cancel" onclick="closeConfirmModal()">Cancel</button>
+          <button class="modal-confirm">Confirm meeting</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const TIMES = ['9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM'];
+      const participants = ['Sneha', 'Aditya', 'Raj'];
+      const total = participants.length;
+
+      // Week offset from today (0 = current week)
+      let weekOffset = 0;
+
+      // Generate mock data for a given week start date
+      function getMockData(weekStart) {
+        const data = {};
+        for (let d = 0; d < 7; d++) {
+          data[d] = {};
+          for (let t = 0; t < TIMES.length; t++) {
+            let avail = [], unavail = [];
+            participants.forEach(p => {
+              if (d === 1 && t === 1) { avail.push(p); return; }
+              if (d === 2 && t === 5) { p === 'Raj' ? unavail.push(p) : avail.push(p); return; }
+              if (d === 3 && t === 3) { p === 'Raj' ? unavail.push(p) : avail.push(p); return; }
+              // Use a seed-like pattern so it doesn't re-randomise on every render
+              const seed = (d * 10 + t + weekOffset * 7) % 3;
+              const idx = participants.indexOf(p);
+              (seed + idx) % 3 !== 0 ? avail.push(p) : unavail.push(p);
+            });
+            data[d][t] = { avail, unavail };
+          }
+        }
+        return data;
+      }
+
+      // Get Monday of the week offset from today
+      function getWeekStart(offset) {
+        const today = new Date();
+        const day = today.getDay(); // 0=Sun
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+        monday.setHours(0, 0, 0, 0);
+        return monday;
+      }
+
+      function formatDay(date) {
+        return date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      }
+
+      function formatWeekLabel(start) {
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        const startStr = start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const endStr = end.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        return `${startStr} – ${endStr}`;
+      }
+
+      function buildGrid() {
+        const weekStart = getWeekStart(weekOffset);
+        const mockData = getMockData(weekStart);
+
+        // Update week label
+        document.getElementById('week-label').textContent = formatWeekLabel(weekStart);
+
+        // Rebuild header
+        const head = document.getElementById('grid-head');
+        head.innerHTML = '<th class="time-col"></th>';
+        for (let d = 0; d < 7; d++) {
+          const date = new Date(weekStart);
+          date.setDate(weekStart.getDate() + d);
+          const th = document.createElement('th');
+          th.textContent = formatDay(date);
+          head.appendChild(th);
+        }
+
+        // Rebuild body
+        const tbody = document.getElementById('grid-body');
+        tbody.innerHTML = '';
+        TIMES.forEach((time, t) => {
+          const tr = document.createElement('tr');
+          const timeTd = document.createElement('td');
+          timeTd.className = 'time-label';
+          timeTd.textContent = time;
+          tr.appendChild(timeTd);
+
+          for (let d = 0; d < 7; d++) {
+            const td = document.createElement('td');
+            const { avail } = mockData[d][t];
+            const count = avail.length;
+
+            if (count === total) td.className = 'cell cell-all';
+            else if (count >= 1) td.className = 'cell cell-most';
+            else td.className = 'cell cell-none';
+
+            // Build date/time label for modal
+            const date = new Date(weekStart);
+            date.setDate(weekStart.getDate() + d);
+            const dateLabel = date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+
+            td.addEventListener('mouseenter', (e) => showTooltip(e, mockData[d][t], dateLabel, time));
+            td.addEventListener('mouseleave', hideTooltip);
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+        });
+      }
+
+      function changeWeek(dir) {
+        weekOffset += dir;
+        buildGrid();
+      }
+
+      // Initial build
+      buildGrid();
+
+      // Tooltip
+      const tooltip = document.getElementById('slot-tooltip');
+      const tooltipContent = document.getElementById('tooltip-content');
+      let tooltipTimeout;
+
+      function showTooltip(e, slotData, dateLabel, time) {
+        const { avail, unavail } = slotData;
+        tooltipContent.innerHTML = `
+          <div class="tooltip-time">${dateLabel}, ${time}</div>
+          <div class="tooltip-section">
+            <span class="material-symbols-outlined tooltip-icon avail-icon">check_circle</span>
+            <span><strong>Available:</strong> ${avail.length ? avail.join(', ') : 'No one'}</span>
+          </div>
+          ${unavail.length ? `<div class="tooltip-section">
+            <span class="material-symbols-outlined tooltip-icon unavail-icon">cancel</span>
+            <span><strong>Not available:</strong> ${unavail.join(', ')}</span>
+          </div>` : ''}
+          <button class="tooltip-select-btn" onclick="openConfirmModal('${dateLabel}', '${time}')">Select this time</button>
+        `;
+
+        const rect = e.target.getBoundingClientRect();
+        const tipWidth = 220;
+        let left = rect.right + 12;
+        if (left + tipWidth > window.innerWidth) {
+          left = rect.left - tipWidth - 12;
+        }
+        tooltip.style.top = (rect.top + window.scrollY - 10) + 'px';
+        tooltip.style.left = left + 'px';
+        tooltip.style.display = 'block';
+      }
+
+      function hideTooltip() {
+        tooltip.style.display = 'none';
+      }
+
+      // Star toggle
+      function toggleStar(btn) {
+        btn.classList.toggle('starred');
+      }
+
+      // Confirm modal
+      function openConfirmModal(date, time) {
+        hideTooltip();
+        document.getElementById('modal-selected-time').textContent = `${date} · ${time}`;
+        document.getElementById('modal-overlay').style.display = 'flex';
+        // Reset fields
+        document.querySelectorAll('input[name="meet-type"]').forEach(r => r.checked = false);
+        document.querySelectorAll('.meet-field').forEach(f => f.style.display = 'none');
+      }
+
+      function closeConfirmModal() {
+        document.getElementById('modal-overlay').style.display = 'none';
+      }
+
+      function closeModal(e) {
+        if (e.target === document.getElementById('modal-overlay')) closeConfirmModal();
+      }
+
+      function showMeetField(type) {
+        document.querySelectorAll('.meet-field').forEach(f => f.style.display = 'none');
+        const field = document.getElementById('field-' + type);
+        if (field) field.style.display = 'block';
+      }
+    </script>
+  </body>
+</html>
