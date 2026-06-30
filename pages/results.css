@@ -162,6 +162,8 @@ body {
 .star-btn .material-symbols-outlined {
   font-size: 20px;
   line-height: 1;
+  margin: 0;
+  display: block;
 }
 
 .star-btn:hover  { color: #f0a500; }
@@ -239,6 +241,8 @@ body {
 .week-btn .material-symbols-outlined {
   font-size: 20px;
   line-height: 1;
+  margin: 0;
+  display: block;
 }
 
 .week-label {
@@ -316,9 +320,15 @@ body {
 .legend-dot {
   width: 14px;
   height: 14px;
+  min-width: 14px;
+  min-height: 14px;
   border-radius: 3px;
   display: inline-block;
   flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .dot-all  { background: #f0e6eb; border: 1px solid #e0c8d4; }
@@ -430,6 +440,8 @@ body {
 .modal-close .material-symbols-outlined {
   font-size: 22px;
   line-height: 1;
+  margin: 0;
+  display: block;
 }
 
 .modal-title {

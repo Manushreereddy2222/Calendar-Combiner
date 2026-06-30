@@ -3,14 +3,42 @@
   <head>
     <title>Results - Calendar Combiner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-symbols@0.18.0/outlined.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="results.css" />
+    <link rel="stylesheet" href="auth.css" />
   </head>
   <body>
+            <!-- Google Auth Modal -->
+    <div class="auth-modal-overlay" id="auth-modal-overlay" style="display:none"
+      onclick="closeAuthModalOutside(event)">
+        <div class="auth-modal">
+          <button class="auth-modal-close" onclick="closeAuthModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <div class="auth-modal-logo">
+          <div class="auth-logo-circle">
+            <span class="material-symbols-outlined">calendar_month</span>
+          </div>
+        </div>
+
+        <h2 class="auth-modal-title">Welcome back</h2>
+        <p class="auth-modal-subtitle">Sign in to save your sessions and sync your calendar</p>
+
+        <div id="google-btn-container" class="google-btn-wrapper"></div>
+
+        <p class="auth-modal-note">
+         By signing in you agree to let Calendar Combiner read your calendar availability. We never store your events.
+        </p>
+      </div>
+    </div>
     <div class="homepage">
       <header class="header">
         <h1 class="title">Calendar Combiner</h1>
         <nav>
-          <button class="login-btn">Log in</button>
+          <button class="login-btn" onclick="openAuthModal()">Log in</button>
         </nav>
       </header>
     </div>
@@ -343,5 +371,6 @@
         if (field) field.style.display = 'block';
       }
     </script>
+    <script src="google-auth.js"></script>
   </body>
 </html>

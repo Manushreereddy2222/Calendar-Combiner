@@ -337,3 +337,248 @@ p {
     padding: 36px 28px;
   }
 }
+/* ── Manual Availability Modal ─────────────────────────────── */
+.avail-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 400;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.avail-modal {
+  background: white;
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  width: 100%;
+  max-width: 740px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(93, 46, 70, 0.18);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.avail-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.avail-modal-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  color: #5D2E46;
+  margin-bottom: 3px;
+}
+
+.avail-modal-subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.avail-modal-subtitle strong {
+  color: #5D2E46;
+}
+
+.avail-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+  padding: 0;
+  margin: 0;
+}
+
+.avail-modal-close:hover { color: #5D2E46; }
+
+.avail-modal-close .material-symbols-outlined {
+  font-size: 22px;
+  line-height: 1;
+  margin: 0;
+}
+
+/* Week nav */
+.avail-week-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.avail-week-btn {
+  background: white;
+  border: 1px solid #e0d0d8;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #5D2E46;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.avail-week-btn:hover { background: #f0e6eb; }
+
+.avail-week-btn .material-symbols-outlined {
+  font-size: 18px;
+  line-height: 1;
+  margin: 0;
+}
+
+.avail-week-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5D2E46;
+}
+
+/* Grid */
+.avail-grid-scroll {
+  overflow-x: auto;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #f0e6eb;
+}
+
+.avail-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+  user-select: none;
+}
+
+.avail-grid-table th {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  padding: 8px 6px;
+  text-align: center;
+  white-space: nowrap;
+  background: #faf5f7;
+  border-bottom: 1px solid #f0e6eb;
+}
+
+.avail-time-col { width: 68px; }
+
+.avail-time-label {
+  font-size: 11px;
+  color: #aaa;
+  padding: 2px 8px 2px 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: right;
+  background: #faf5f7;
+  border-right: 1px solid #f0e6eb;
+}
+
+.avail-cell {
+  height: 30px;
+  border: 1px solid #faf5f7;
+  cursor: pointer;
+  background: #f0e6eb;
+  transition: background 0.1s, outline 0.1s;
+}
+
+.avail-cell:hover {
+  outline: 2px solid #5D2E46;
+  outline-offset: -2px;
+  position: relative;
+  z-index: 1;
+}
+
+.avail-cell.busy {
+  background: #5D2E46;
+}
+
+/* Legend */
+.avail-legend {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.avail-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.avail-legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.dot-free { background: #f0e6eb; border: 1px solid #e0c8d4; }
+.dot-busy { background: #5D2E46; }
+
+/* Actions */
+.avail-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f0e6eb;
+  padding-top: 18px;
+}
+
+.avail-clear-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.avail-clear-btn:hover { color: #5D2E46; }
+
+.avail-cancel-btn {
+  background: white;
+  border: 1px solid #e0d0d8;
+  color: #888;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.avail-cancel-btn:hover { border-color: #5D2E46; color: #5D2E46; }
+
+.avail-save-btn {
+  background: #5D2E46;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.avail-save-btn:hover { background: #4a2338; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .avail-modal {
+    padding: 22px 18px 20px;
+    max-height: 95vh;
+  }
+}
