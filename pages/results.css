@@ -253,7 +253,16 @@ body {
 
 /* Grid table */
 .grid-scroll {
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 420px;
+  border-radius: 8px;
+}
+
+.avail-grid thead th {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 2;
 }
 
 .avail-grid {
@@ -352,7 +361,7 @@ body {
   box-shadow: 0 8px 24px rgba(93, 46, 70, 0.14);
   z-index: 200;
   min-width: 210px;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .tooltip-time {

@@ -21,9 +21,10 @@ body {
 }
 
 .title {
-  font-size: 30 px;
+  font-size: 24px;
   font-weight: bold;
   color: #5D2E46;
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .login-btn {
@@ -35,9 +36,9 @@ body {
   border-color: #5D2E46;
   color: #5D2E46;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   transition: all 0.3s;
-  font-family: vollkorn, serif;
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .login-btn:hover {
@@ -445,10 +446,17 @@ p {
 
 /* Grid */
 .avail-grid-scroll {
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 340px;
   margin-bottom: 14px;
   border-radius: 8px;
   border: 1px solid #f0e6eb;
+}
+
+.avail-grid-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .avail-grid-table {

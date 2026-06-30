@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - Calendar Combiner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-symbols@0.18.0/outlined.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="homepage.css">
+    <style>
+      .placeholder-main {
+        max-width: 550px;
+        margin: 80px auto 0;
+        text-align: center;
+        padding: 40px;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(93, 46, 70, 0.08);
+      }
+      .placeholder-main h1 { font-size: 26px; }
+      .placeholder-main p { color: #777; }
+    </style>
+  </head>
+  <body>
+    <div class="homepage">
+      <header class="header">
+        <h1 class="title">Calendar Combiner</h1>
+        <nav>
+          <button class="login-btn" onclick="window.location.href='homepage.html'">Home</button>
+        </nav>
+      </header>
+      <div class="placeholder-main">
+        <h1>Dashboard coming soon</h1>
+        <p id="welcome-text">You're signed in.</p>
+        <p>This page will list your sessions once authentication is fully wired to the backend.</p>
+      </div>
+    </div>
+    <script>
+      const name = localStorage.getItem('cc_user_name');
+      if (name) {
+        document.getElementById('welcome-text').textContent = `Signed in as ${name}.`;
+      }
+    </script>
+  </body>
+</html>
