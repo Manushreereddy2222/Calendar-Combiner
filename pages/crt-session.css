@@ -21,7 +21,7 @@ body {
 }
 
 .title {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   color: #5D2E46;
   font-family: Georgia, "Times New Roman", serif;
@@ -36,7 +36,7 @@ body {
   border-color: #5D2E46;
   color: #5D2E46;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   transition: all 0.3s;
   font-family: Georgia, "Times New Roman", serif;
 }

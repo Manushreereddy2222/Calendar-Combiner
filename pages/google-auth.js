@@ -11,8 +11,14 @@ function loadGoogleScript() {
 }
 loadGoogleScript();
 
+// Tracks why the auth modal was opened, so onLoginSuccess can behave
+// differently depending on what the user was actually trying to do
+// (generic site login vs. connecting a calendar mid-session).
+let authIntent = 'login';
+
 // Open the auth modal
-function openAuthModal() {
+function openAuthModal(intent) {
+  authIntent = intent || 'login';
   document.getElementById('auth-modal-overlay').style.display = 'flex';
   // Small delay so the Google button renders after the modal is visible
   setTimeout(() => renderGoogleBtn('google-btn-container'), 100);
@@ -107,8 +113,15 @@ function handleCredentialResponse(response) {
   onLoginSuccess(payload); // hook for each page to respond differently
 }
 
-// Default post-login behavior — each page can override this
+// Default post-login behavior — checks intent first, falls back to
+// dashboard redirect for generic site login. Pages can define
+// window.onCalendarConnected to handle the 'calendar' intent instead
+// of being redirected away mid-flow.
 function onLoginSuccess(user) {
+  if (authIntent === 'calendar' && typeof window.onCalendarConnected === 'function') {
+    window.onCalendarConnected(user);
+    return;
+  }
   window.location.href = 'dashboard.html';
 }
 
@@ -186,3 +199,77 @@ function handleEmailSignup(e) {
   closeSignupModal();
   onLoginSuccess({ name, email });
 }
+
+// ───────────────────────────────────────────────────────────────
+// Header login/logout state — keeps the "Log in" button in sync
+// with actual login state on every page that includes this script.
+// ───────────────────────────────────────────────────────────────
+
+function performLogout() {
+  localStorage.removeItem('cc_logged_in');
+  localStorage.removeItem('cc_user_name');
+  localStorage.removeItem('cc_user_email');
+  localStorage.removeItem('cc_user_picture');
+  window.location.href = 'homepage.html';
+}
+
+// Built dynamically (rather than duplicated in every page's HTML) so
+// logout confirmation works consistently from any page, including
+// dashboard.html which has its own custom logout button.
+function logoutUser() {
+  if (document.getElementById('logout-confirm-overlay')) return; // already open
+
+  const overlay = document.createElement('div');
+  overlay.id = 'logout-confirm-overlay';
+  overlay.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.15);
+    z-index: 10000; display: flex; align-items: center; justify-content: center;
+  `;
+
+  const box = document.createElement('div');
+  box.style.cssText = `
+    background: white; border-radius: 14px; padding: 32px 28px;
+    width: 90%; max-width: 360px; text-align: center;
+    box-shadow: 0 16px 48px rgba(93,46,70,0.18);
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  `;
+  box.innerHTML = `
+    <h2 style="font-family: Georgia, serif; font-size: 19px; color:#5D2E46; margin:0 0 8px 0;">Log out?</h2>
+    <p style="font-size: 13.5px; color:#888; margin:0 0 22px 0; line-height:1.5;">
+      You'll need to sign in again to access your dashboard and sessions.
+    </p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button id="logout-cancel-btn" style="background:white; border:1px solid #e0d0d8; color:#888; border-radius:6px; padding:10px 20px; font-size:14px; cursor:pointer;">Cancel</button>
+      <button id="logout-confirm-btn" style="background:#5D2E46; color:white; border:none; border-radius:6px; padding:10px 22px; font-size:14px; font-weight:500; cursor:pointer;">Log out</button>
+    </div>
+  `;
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  document.getElementById('logout-cancel-btn').onclick = () => overlay.remove();
+  document.getElementById('logout-confirm-btn').onclick = performLogout;
+}
+
+function syncHeaderAuthUI() {
+  const btn = document.getElementById('header-auth-btn');
+  const nameSpan = document.getElementById('header-user-name');
+  if (!btn) return; // page doesn't have this header pattern (e.g. dashboard manages its own)
+
+  if (localStorage.getItem('cc_logged_in') === 'true') {
+    const name = localStorage.getItem('cc_user_name') || 'Account';
+    if (nameSpan) {
+      nameSpan.textContent = 'Hi, ' + name;
+      nameSpan.style.display = 'inline';
+    }
+    btn.textContent = 'Log out';
+    btn.onclick = logoutUser;
+  } else {
+    if (nameSpan) nameSpan.style.display = 'none';
+    btn.textContent = 'Log in';
+    btn.onclick = () => openAuthModal('login');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', syncHeaderAuthUI);

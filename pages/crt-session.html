@@ -102,7 +102,8 @@
       <header class="header">
         <h1 class="title">Calendar Combiner</h1>
         <nav>
-          <button class="login-btn" onclick="openAuthModal()">Log in</button>
+          <span class="header-user-name" id="header-user-name" style="display:none;"></span>
+          <button class="login-btn" id="header-auth-btn" onclick="openAuthModal()">Log in</button>
         </nav>
       </header>
     </div>
@@ -140,7 +141,7 @@
           <h3>Add yourself</h3>
           <p class="small-text">Join the session by connecting your calendar or entering your availability manually.</p>
 
-          <button class="outline-btn" onclick="openAuthModal()">
+          <button class="outline-btn" onclick="openAuthModal('calendar')">
             <span class="material-symbols-outlined">calendar_month</span>
             Connect Google Calendar
           </button>
@@ -217,6 +218,28 @@
         : params.get('join');
 
       document.getElementById('session-link').textContent = 'calendarcombiner.app/s/' + id;
+
+      // ── Dashboard tracking ──────────────────────────────────────
+      // Records which sessions this browser created/joined, so dashboard.html
+      // has something to list. Stand-in for real per-account session
+      // ownership until the Django backend exists.
+      function recordMySession(role) {
+        // Only attribute a session to a dashboard if someone's actually
+        // logged in — otherwise it has no account to belong to, and
+        // shouldn't show up once someone later logs in on this browser.
+        if (localStorage.getItem('cc_logged_in') !== 'true') return;
+        const email = localStorage.getItem('cc_user_email');
+        if (!email) return;
+
+        const key = 'cc_my_sessions_' + email;
+        const my = JSON.parse(localStorage.getItem(key) || '{}');
+        if (!my[id]) {
+          my[id] = { role, createdAt: new Date().toISOString() };
+        }
+        localStorage.setItem(key, JSON.stringify(my));
+      }
+
+      if (IS_CREATOR) recordMySession('creator');
 
       function copyLink() {
         const link = document.getElementById('session-link').textContent;
@@ -402,6 +425,8 @@
         sessionData.participants[userName] = labeledBusy;
         localStorage.setItem(sessionKey, JSON.stringify(sessionData));
 
+        if (!IS_CREATOR) recordMySession('participant');
+
         // Update UI to show user has joined
         const joinCard = document.querySelector('.join-card');
         joinCard.querySelector('h2').textContent = 'You\'ve been added!';
@@ -420,6 +445,33 @@
           document.getElementById('participant-waiting-text').style.display = 'block';
         }
       }
+
+      // Called by google-auth.js after a successful login when the auth
+      // modal was opened via "Connect Google Calendar" (intent='calendar'),
+      // instead of the default behavior of redirecting to dashboard.html.
+      // NOTE: this is a UI stand-in only — no real calendar data is read
+      // yet. Actually pulling busy/free times from Google Calendar requires
+      // the calendar.readonly OAuth scope plus a backend call, which comes
+      // once Django exists.
+      window.onCalendarConnected = function (user) {
+        if (!IS_CREATOR) recordMySession('participant');
+
+        const joinCard = document.querySelector('.join-card');
+        joinCard.querySelector('h2').textContent = 'Calendar connected!';
+        joinCard.querySelector('p').textContent =
+          `Signed in as ${user.name || user.email}. (Demo only — real calendar availability syncing isn't built yet.)`;
+        joinCard.querySelector('.add-yourself').style.display = 'none';
+
+        if (IS_CREATOR) {
+          document.getElementById('find-btn').disabled = false;
+          document.getElementById('helper-text').textContent = 'Ready! Find common free times.';
+          document.getElementById('find-btn').onclick = () => {
+            window.location.href = 'results.html?session=' + id;
+          };
+        } else {
+          document.getElementById('participant-waiting-text').style.display = 'block';
+        }
+      };
     </script>
     <script src="google-auth.js"></script>
   </body>

@@ -1,0 +1,156 @@
+/* Dashboard-specific styles. Loaded alongside homepage.css for shared
+   global reset, header, and button base styles. */
+
+.dash-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dash-user {
+  font-size: 15px;
+  color: #5D2E46;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.dash-wrapper {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.dash-wrapper * {
+  margin: 0;
+}
+
+.dash-top-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.dash-new-link {
+  margin: 0 !important;
+  display: inline-block;
+}
+
+.dash-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  color: #5D2E46;
+  margin-left: 0;
+}
+
+.dash-new-btn {
+  width: auto;
+  margin: 0 !important;
+  padding: 12px 24px;
+  height: auto;
+}
+
+.dash-section {
+  margin-bottom: 36px;
+}
+
+.dash-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+
+.dash-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dash-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 12px rgba(93, 46, 70, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dash-card-id {
+  font-size: 14px;
+  color: #2b2b2b;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.dash-card-role {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.dash-card-role.creator {
+  background: #f0e6eb;
+  color: #5D2E46;
+}
+
+.dash-card-role.participant {
+  background: #faf0f3;
+  color: #9b5070;
+}
+
+.dash-card-meta {
+  font-size: 13px;
+  color: #999;
+}
+
+.dash-card-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #5D2E46;
+  color: #5D2E46;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dash-card-btn:hover {
+  background: #5D2E46;
+  color: white;
+}
+
+.dash-empty {
+  font-size: 14px;
+  color: #aaa;
+  background: #fff;
+  border: 1px dashed #e0d0d8;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .dash-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

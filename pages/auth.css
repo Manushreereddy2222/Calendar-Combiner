@@ -217,3 +217,10 @@
 }
 
 .auth-switch-link:hover { text-decoration: underline !important; }
+
+.header-user-name {
+  font-size: 14px;
+  color: #5D2E46;
+  font-family: Georgia, "Times New Roman", serif;
+  margin-right: 4px;
+}

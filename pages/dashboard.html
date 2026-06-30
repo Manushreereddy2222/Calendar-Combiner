@@ -7,40 +7,106 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="homepage.css">
-    <style>
-      .placeholder-main {
-        max-width: 550px;
-        margin: 80px auto 0;
-        text-align: center;
-        padding: 40px;
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        box-shadow: 0 8px 24px rgba(93, 46, 70, 0.08);
-      }
-      .placeholder-main h1 { font-size: 26px; }
-      .placeholder-main p { color: #777; }
-    </style>
+    <link rel="stylesheet" href="dashboard.css">
   </head>
   <body>
     <div class="homepage">
       <header class="header">
         <h1 class="title">Calendar Combiner</h1>
-        <nav>
-          <button class="login-btn" onclick="window.location.href='homepage.html'">Home</button>
+        <nav class="dash-nav">
+          <span class="dash-user" id="dash-user"></span>
+          <button class="login-btn" onclick="logoutUser()">Log out</button>
         </nav>
       </header>
-      <div class="placeholder-main">
-        <h1>Dashboard coming soon</h1>
-        <p id="welcome-text">You're signed in.</p>
-        <p>This page will list your sessions once authentication is fully wired to the backend.</p>
+
+      <div class="dash-wrapper">
+        <div class="dash-top-row">
+          <h2 class="dash-title">Your sessions</h2>
+          <a class="dash-new-link" href="crt-session.html"><button class="session-btn dash-new-btn">+ New session</button></a>
+        </div>
+
+        <!-- Created sessions -->
+        <section class="dash-section">
+          <h3 class="dash-section-title">Created by you</h3>
+          <div class="dash-cards" id="created-sessions"></div>
+          <p class="dash-empty" id="created-empty" style="display:none;">
+            You haven't created any sessions yet.
+          </p>
+        </section>
+
+        <!-- Joined sessions -->
+        <section class="dash-section">
+          <h3 class="dash-section-title">Joined</h3>
+          <div class="dash-cards" id="joined-sessions"></div>
+          <p class="dash-empty" id="joined-empty" style="display:none;">
+            You haven't joined any sessions yet.
+          </p>
+        </section>
       </div>
     </div>
+
     <script>
-      const name = localStorage.getItem('cc_user_name');
-      if (name) {
-        document.getElementById('welcome-text').textContent = `Signed in as ${name}.`;
+      // Dashboard requires a logged-in user — bounce back to homepage otherwise.
+      if (localStorage.getItem('cc_logged_in') !== 'true') {
+        window.location.href = 'homepage.html';
       }
+
+      const userName = localStorage.getItem('cc_user_name') || 'there';
+      document.getElementById('dash-user').textContent = 'Hi, ' + userName;
+
+      function formatDate(iso) {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      function buildSessionCard(id, role, createdAt) {
+        const sessionData = JSON.parse(localStorage.getItem('cc_session_' + id) || '{"participants":{}}');
+        const participantCount = Object.keys(sessionData.participants).length;
+
+        const card = document.createElement('div');
+        card.className = 'dash-card';
+
+        const link = role === 'creator'
+          ? `results.html?session=${id}`
+          : `crt-session.html?join=${id}`;
+        const actionLabel = role === 'creator' ? 'View results' : 'View session';
+
+        card.innerHTML = `
+          <div class="dash-card-top">
+            <span class="dash-card-id">calendarcombiner.app/s/${id}</span>
+            <span class="dash-card-role ${role}">${role === 'creator' ? 'Creator' : 'Participant'}</span>
+          </div>
+          <p class="dash-card-meta">${participantCount} participant${participantCount === 1 ? '' : 's'} · ${formatDate(createdAt)}</p>
+          <a href="${link}"><button class="dash-card-btn">${actionLabel}</button></a>
+        `;
+        return card;
+      }
+
+      function renderDashboard() {
+        const email = localStorage.getItem('cc_user_email');
+        const mySessions = JSON.parse(localStorage.getItem('cc_my_sessions_' + email) || '{}');
+        const createdContainer = document.getElementById('created-sessions');
+        const joinedContainer = document.getElementById('joined-sessions');
+
+        let createdCount = 0, joinedCount = 0;
+
+        Object.entries(mySessions).forEach(([id, info]) => {
+          const card = buildSessionCard(id, info.role, info.createdAt);
+          if (info.role === 'creator') {
+            createdContainer.appendChild(card);
+            createdCount++;
+          } else {
+            joinedContainer.appendChild(card);
+            joinedCount++;
+          }
+        });
+
+        document.getElementById('created-empty').style.display = createdCount ? 'none' : 'block';
+        document.getElementById('joined-empty').style.display = joinedCount ? 'none' : 'block';
+      }
+
+      renderDashboard();
     </script>
+    <script src="google-auth.js"></script>
   </body>
 </html>
